@@ -2154,12 +2154,18 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         if let photo = mediaAtIndex(index: index) {
             if numberOfMedias > 0 && photo.underlyingImage != nil {
                 // Show activity view controller
-                var items: [Any] = [Any]()
+                var items: [Any] = []
                 if let image = photo.underlyingImage {
-                    items.append(image)
-                }
-                if photo.caption != "" {
-                    items.append(photo.caption)
+                    if !photo.isVideo {
+                        let fileName = photo.caption == "" ? "Image.jpg" : "\(photo.caption).jpg"
+                        if let compressedImage = image.jpegData(compressionQuality: 1.0) {
+                            let imageUrl = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+                            do {
+                                try compressedImage.write(to: imageUrl, options: .atomic)
+                                items.append(imageUrl)
+                            } catch { }
+                        }
+                    }
                 }
                 activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
 
@@ -2168,6 +2174,13 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
                     vc.completionWithItemsHandler = { [weak self] (activityType, completed, returnedItems, activityError) in
                         guard let wself = self else { return }
 
+                        for item in items {
+                            if let fileUrl = item as? URL {
+                                do {
+                                    try FileManager.default.removeItem(at: fileUrl)
+                                } catch { }
+                            }
+                        }
                         wself.activityViewController = nil
                         wself.hideControlsAfterDelay()
                     }
