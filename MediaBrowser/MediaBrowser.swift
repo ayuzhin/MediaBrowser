@@ -1440,11 +1440,15 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
 
     func frameForCaptionView(captionView: MediaCaptionView?, index: Int) -> CGRect {
         if let cw = captionView {
+            var safeAreaBottom: CGFloat = 0
+            if #available(iOS 11.0, *) {
+                safeAreaBottom = view.safeAreaInsets.bottom
+            }
             let pageFrame = frameForPageAtIndex(index: index)
             let captionSize = cw.sizeThatFits(CGSize(width: pageFrame.size.width, height: 0.0))
             let captionFrame = CGRect(
                 x: pageFrame.origin.x,
-                y: pageFrame.size.height - captionSize.height - (toolbar.superview != nil ? toolbar.frame.size.height : 0.0),
+                y: pageFrame.size.height - captionSize.height - (toolbar.superview != nil ? toolbar.frame.size.height : 0.0) - safeAreaBottom,
                 width: pageFrame.size.width,
                 height: captionSize.height)
             
