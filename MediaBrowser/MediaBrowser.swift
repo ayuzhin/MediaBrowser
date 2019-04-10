@@ -2157,8 +2157,15 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
                 var items: [Any] = []
                 if let image = photo.underlyingImage {
                     if !photo.isVideo {
-                        let fileName = photo.caption == "" ? "Image.jpg" : "\(photo.caption).jpg"
-                        if let compressedImage = image.jpegData(compressionQuality: 1.0) {
+                        var fileName = photo.caption
+
+                        if fileName == "" {
+                            fileName = "Image.jpg"
+                        } else {
+                            fileName =  "\((fileName as NSString).deletingPathExtension).jpg"
+                        }
+
+                        if let compressedImage = image.jpegData(compressionQuality: 0.8) {
                             let imageUrl = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
                             do {
                                 try compressedImage.write(to: imageUrl, options: .atomic)
