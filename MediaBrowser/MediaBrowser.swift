@@ -1768,7 +1768,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
 //            }
         }
         
-        dismiss(animated: true, completion: nil)
+//        dismiss(animated: true, completion: nil)
     }
 
     func clearCurrentVideo() {
