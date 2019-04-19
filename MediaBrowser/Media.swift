@@ -43,6 +43,7 @@ open class Media: NSObject {
     private var loadingInProgress = false
     private var operation: SDWebImageOperation?
     private var assetRequestID = PHInvalidImageRequestID
+    private var headerFields: [String : Any]?
     
     //MARK: - Init
     /// init
@@ -94,6 +95,17 @@ open class Media: NSObject {
         self.photoURL = previewImageURL
     }
 
+    /// init with video URL and header fields
+    public convenience init(videoURL: URL, previewImageURL: URL? = nil, headerFields: [String: Any]? = nil) {
+        self.init()
+
+        self.headerFields = headerFields
+        self.videoURL = videoURL
+        isVideo = true
+        emptyImage = (previewImageURL == nil) ? true : false
+        self.photoURL = previewImageURL
+    }
+
     //MARK: - Video
 
     private var _videoURL: URL?
@@ -111,6 +123,37 @@ open class Media: NSObject {
     func setVideoURL(url: URL?) {
         self._videoURL = url
         isVideo = true
+
+        DispatchQueue.global().async { [weak self] in
+            guard
+                let videoUrl = url,
+                let thumbnail = self?.videoThumbnail(url: videoUrl, fromTime: 5)
+            else { return }
+
+            DispatchQueue.main.async { [weak self] in
+                self?.underlyingImage = thumbnail
+                self?.imageLoadingComplete()
+            }
+        }
+    }
+
+    private func videoThumbnail(url: URL, fromTime time: Float64 = 0) -> UIImage? {
+        let imageGenerator: AVAssetImageGenerator!
+
+        if let headerFields = headerFields {
+            let urlAsset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": headerFields])
+            imageGenerator = AVAssetImageGenerator(asset: urlAsset)
+        } else {
+            imageGenerator = AVAssetImageGenerator(asset: AVAsset(url: url))
+        }
+
+        let time = CMTimeMakeWithSeconds(time, preferredTimescale: 1)
+        var actualTime = CMTimeMake(value: 0, timescale: 0)
+
+        guard let cgImage = try? imageGenerator.copyCGImage(at: time, actualTime: &actualTime) else {
+            return nil
+        }
+        return UIImage(cgImage: cgImage)
     }
 
     func getVideoURL(completion: @escaping (URL?) -> ()) {
