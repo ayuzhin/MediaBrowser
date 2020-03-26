@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MediaBrowser'
-  s.version          = '2.1.1'
+  s.version          = '2.1.2'
   s.summary          = 'A simple iOS photo and video browser with optional grid view, captions and selections written in Swift4.'
 
   s.description = <<-DESCRIPTION
@@ -24,7 +24,7 @@ MediaBrowser can display one or more images or videos by providing either UIImag
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Seungyoun Yi" => "younatics@gmail.com" }
   s.social_media_url = 'https://twitter.com/younatics'
-
+  s.swift_version = '5.0'
   s.source           = { 
     :git => 'https://github.com/younatics/MediaBrowser.git', 
     :tag => s.version.to_s }
@@ -33,7 +33,7 @@ MediaBrowser can display one or more images or videos by providing either UIImag
 
   s.ios.deployment_target = '8.1'
 
-  s.frameworks = 'ImageIO', 'QuartzCore', 'AssetsLibrary', 'MediaPlayer'
+  s.frameworks = 'ImageIO', 'QuartzCore', 'MediaPlayer'
   s.weak_frameworks = 'Photos'
 
   s.dependency 'SDWebImage'

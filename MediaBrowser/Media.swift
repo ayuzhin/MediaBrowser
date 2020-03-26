@@ -8,7 +8,6 @@
 //
 
 import UIKit
-import AssetsLibrary
 import Photos
 import SDWebImage
 
@@ -273,26 +272,25 @@ open class Media: NSObject {
     
     // Load from asset library async
     private func performLoadUnderlyingImageAndNotifyWithAssetsLibraryURL(url: URL) {
-        DispatchQueue.global(qos: .default).async {
-            let assetslibrary = ALAssetsLibrary()
-            assetslibrary.asset(
-                for: url,
-                resultBlock: { asset in
-                    let rep = asset?.defaultRepresentation()
-                    guard let cgImage = rep?.fullScreenImage().takeUnretainedValue() else { return }
-                    self.underlyingImage = UIImage(cgImage: cgImage)
+        let options = PHImageRequestOptions()
+        options.version = .original
+        options.deliveryMode = .highQualityFormat
+        
+        let fetchResult = PHAsset.fetchAssets(withALAssetURLs: [url], options: nil)
+        if let photo = fetchResult.firstObject {
+            PHImageManager.default()
+                .requestImage(
+                    for: photo,
+                    targetSize: PHImageManagerMaximumSize,
+                    contentMode: PHImageContentMode.default,
+                    options: options)
+                { image, info in
+                    self.underlyingImage = image
                     
                     DispatchQueue.main.async() {
                         self.imageLoadingComplete()
                     }
-            },
-                    failureBlock: { error in
-                        self.underlyingImage = nil
-                        
-                        DispatchQueue.main.async() {
-                            self.imageLoadingComplete()
-                        }
-                    })
+            }
         }
     }
 
