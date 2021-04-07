@@ -61,12 +61,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
     private var previousStatusBarStyle: UIStatusBarStyle = .lightContent
 
     // Video
-    lazy private var currentVideoPlayerViewController: AVPlayerViewController = {
-        if #available(iOS 9.0, *) {
-            $0.delegate = self
-        }
-        return $0
-    }(AVPlayerViewController())
+    lazy private var currentVideoPlayerViewController = AVPlayerViewController()
     private var currentVideoIndex = 0
     private var currentVideoLoadingIndicator: UIActivityIndicatorView?
 
@@ -280,6 +275,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         }
         
         
+        currentVideoPlayerViewController.delegate = self
         hidesBottomBarWhenPushed = true
         automaticallyAdjustsScrollViewInsets = false
 //        extendedLayoutIncludesOpaqueBars = true
@@ -1777,6 +1773,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             currentVideoPlayerViewController.dismiss(animated: true, completion: nil)
             currentVideoLoadingIndicator?.removeFromSuperview()
             currentVideoPlayerViewController.player = nil
+            currentVideoPlayerViewController.delegate = nil
             currentVideoLoadingIndicator = nil
             currentVideoIndex = Int.max
         }
