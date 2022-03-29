@@ -22,7 +22,6 @@
 		1906ABE61F5F83960052DC3A /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1906ABDB1F5F83960052DC3A /* UIImageExtension.swift */; };
 		1906ABE71F5F83960052DC3A /* MediaZoomingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1906ABDC1F5F83960052DC3A /* MediaZoomingScrollView.swift */; };
 		1906ABE91F5F9A100052DC3A /* MediaBrowser.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1906ABE81F5F9A100052DC3A /* MediaBrowser.xcassets */; };
-		1937C4471F5FE9EA00D8724E /* MediaBrowser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1906ABB11F5F81110052DC3A /* MediaBrowser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1937C44C1F610CBF00D8724E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1937C44B1F610CBF00D8724E /* Assets.xcassets */; };
 		1937C44E1F62243F00D8724E /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1937C44D1F62243F00D8724E /* DemoData.swift */; };
 		19B277C01F63BE5400194941 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19B277BE1F63BE5400194941 /* LaunchScreen.xib */; };
@@ -42,20 +41,6 @@
 			remoteInfo = MediaBrowser;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		1937C44A1F5FE9EA00D8724E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				1937C4471F5FE9EA00D8724E /* MediaBrowser.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0E7711DC6E06460185D3F457 /* Pods_MediaBrowserDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaBrowserDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,9 +194,9 @@
 			buildConfigurationList = 1906ABB91F5F81120052DC3A /* Build configuration list for PBXNativeTarget "MediaBrowser" */;
 			buildPhases = (
 				0C26AE7EAC3BB33AE3116C77 /* [CP] Check Pods Manifest.lock */,
+				1906ABAE1F5F81110052DC3A /* Headers */,
 				1906ABAC1F5F81110052DC3A /* Sources */,
 				1906ABAD1F5F81110052DC3A /* Frameworks */,
-				1906ABAE1F5F81110052DC3A /* Headers */,
 				1906ABAF1F5F81110052DC3A /* Resources */,
 			);
 			buildRules = (
@@ -232,7 +217,6 @@
 				1906ABBD1F5F812D0052DC3A /* Frameworks */,
 				1906ABBE1F5F812D0052DC3A /* Resources */,
 				369573559A2B17E91D9089BA /* [CP] Embed Pods Frameworks */,
-				1937C44A1F5FE9EA00D8724E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -479,7 +463,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -537,7 +521,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -563,7 +547,6 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MediaBrowser/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyounyi.MediaBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -587,7 +570,6 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MediaBrowser/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyounyi.MediaBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -604,7 +586,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4G7K3CN2JU;
 				INFOPLIST_FILE = MediaBrowserDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyounyi.MediaBrowserDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -620,7 +601,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4G7K3CN2JU;
 				INFOPLIST_FILE = MediaBrowserDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.seungyounyi.MediaBrowserDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

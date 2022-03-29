@@ -59,6 +59,9 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
     private var previousNavigationBarTintColor: UIColor?
     private var previousViewControllerBackButton: UIBarButtonItem?
     private var previousStatusBarStyle: UIStatusBarStyle = .lightContent
+    
+    private var previousNavigationBarStandardAppearance: AnyObject?
+    private var previousNavigationBarScrollEdgeAppearance: AnyObject?
 
     // Video
     lazy private var currentVideoPlayerViewController = AVPlayerViewController()
@@ -274,8 +277,9 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             isVCBasedStatusBarAppearance = true
         }
         
-        
-        currentVideoPlayerViewController.delegate = self
+        if #available(iOS 9.0, *) {
+            currentVideoPlayerViewController.delegate = self
+        }
         hidesBottomBarWhenPushed = true
         automaticallyAdjustsScrollViewInsets = false
 //        extendedLayoutIncludesOpaqueBars = true
@@ -357,6 +361,9 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         pagingScrollView = UIScrollView(frame: pagingScrollViewFrame)
         pagingScrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         pagingScrollView.isPagingEnabled = true
+        if #available(iOS 11.0, *) {
+            pagingScrollView.contentInsetAdjustmentBehavior = .never
+        }
         pagingScrollView.delegate = self
         pagingScrollView.showsHorizontalScrollIndicator = false
         pagingScrollView.showsVerticalScrollIndicator = false
@@ -752,13 +759,24 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         navigationController?.setNavigationBarHidden(false, animated: animated)
     
         if let navBar = navigationController?.navigationBar {
-            navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:navigationBarTextColor]
-            navBar.backgroundColor = navigationBarBackgroundColor
+            
+            if #available(iOS 13.0, *) {
+                let appearance = UINavigationBarAppearance()
+                appearance.configureWithDefaultBackground()
+                appearance.backgroundEffect = UIBlurEffect(style: UIBlurEffect.Style.systemChromeMaterialDark)
+                appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor:navigationBarTextColor]
+                navBar.standardAppearance = appearance
+                navBar.scrollEdgeAppearance = appearance
+            } else {
+                navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:navigationBarTextColor]
+                navBar.backgroundColor = navigationBarBackgroundColor
+                navBar.shadowImage = nil
+                navBar.isTranslucent = navigationBarTranslucent
+                navBar.barStyle = .black
+            }
+            
             navBar.tintColor = navigationBarTextColor
             navBar.barTintColor = navigationBarTintColor
-            navBar.shadowImage = nil
-            navBar.isTranslucent = navigationBarTranslucent
-            navBar.barStyle = .black
         }
     }
 
@@ -772,6 +790,11 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             previousNavigationBarTextColor = navi.navigationBar.tintColor
             previousNavigationBarHidden = navi.isNavigationBarHidden
             previousNavigationBarStyle = navi.navigationBar.barStyle
+            
+            if #available(iOS 13.0, *) {
+                previousNavigationBarStandardAppearance = navi.navigationBar.standardAppearance
+                previousNavigationBarScrollEdgeAppearance = navi.navigationBar.scrollEdgeAppearance
+            }
         }
     }
 
@@ -780,6 +803,12 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             navi.setNavigationBarHidden(previousNavigationBarHidden, animated: animated)
             
             let navBar = navi.navigationBar
+            
+            if #available(iOS 13.0, *) {
+                navBar.standardAppearance = previousNavigationBarStandardAppearance as? UINavigationBarAppearance ?? UINavigationBarAppearance()
+                navBar.scrollEdgeAppearance = previousNavigationBarScrollEdgeAppearance as? UINavigationBarAppearance ?? UINavigationBarAppearance()
+            }
+            
             navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:previousNavigationBarTextColor ?? UIColor.black]
             navBar.backgroundColor = previousNavigationBarBackgroundColor
             navBar.tintColor = previousNavigationBarTextColor
@@ -1773,7 +1802,9 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             currentVideoPlayerViewController.dismiss(animated: true, completion: nil)
             currentVideoLoadingIndicator?.removeFromSuperview()
             currentVideoPlayerViewController.player = nil
-            currentVideoPlayerViewController.delegate = nil
+            if #available(iOS 9.0, *) {
+                currentVideoPlayerViewController.delegate = nil
+            }
             currentVideoLoadingIndicator = nil
             currentVideoIndex = Int.max
         }
