@@ -373,26 +373,38 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         
         // Toolbar
         toolbar = UIToolbar(frame: frameForToolbar)
-        toolbar.tintColor = toolbarTextColor
-        toolbar.barTintColor = toolbarBarTintColor
-        toolbar.backgroundColor = toolbarBackgroundColor
-        toolbar.alpha = toolbarAlpha
-        toolbar.barStyle = .blackTranslucent
-        toolbar.isTranslucent = true
-        toolbar.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
+        if #available(iOS 26.0, *) {
+            let interaction = UIScrollEdgeElementContainerInteraction()
+            interaction.scrollView = pagingScrollView
+            interaction.edge = .bottom
 
+            toolbar.addInteraction(interaction)
+        } else {
+            toolbar.tintColor = toolbarTextColor
+            toolbar.barTintColor = toolbarBarTintColor
+            toolbar.backgroundColor = toolbarBackgroundColor
+            toolbar.alpha = toolbarAlpha
+            toolbar.barStyle = .blackTranslucent
+            toolbar.isTranslucent = true
+            toolbar.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
+        }
 
         // Toolbar Items
         if displayMediaNavigationArrows {
             let arrowPathFormat = "UIBarButtonItemArrow"
             
-            let previousButtonImage = UIImage.imageForResourcePath(
+            var previousButtonImage = UIImage.imageForResourcePath(
                 name: arrowPathFormat + "Left",
                 inBundle: Bundle(for: MediaBrowser.self))
             
-            let nextButtonImage = UIImage.imageForResourcePath(
+            var nextButtonImage = UIImage.imageForResourcePath(
                 name: arrowPathFormat + "Right",
                 inBundle: Bundle(for: MediaBrowser.self))
+            
+            if #available(iOS 26.0, *) {
+                previousButtonImage = UIImage(systemName: "chevron.left")
+                nextButtonImage = UIImage(systemName: "chevron.right")
+            }
             
             previousButton = UIBarButtonItem(
                 image: previousButtonImage,
@@ -480,7 +492,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
                 // We're first on stack so show done button
                 doneButton = UIBarButtonItem(
                     title: NSLocalizedString("Done", comment: ""),
-                    style: .done,
+                    style: .plain,
                     target: self,
                     action: #selector(doneButtonPressed))
 
@@ -523,29 +535,49 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         if enableGrid {
             hasItems = true
             
+            var gridImage = UIImage.imageForResourcePath(name: "UIBarButtonItemGrid", inBundle: Bundle(for: MediaBrowser.self))
+            
+            if #available(iOS 26.0, *) {
+                gridImage = UIImage(systemName: "square.grid.2x2")
+            }
+            
             items.append(UIBarButtonItem(
-                image: UIImage.imageForResourcePath(name: "UIBarButtonItemGrid", inBundle: Bundle(for: MediaBrowser.self)),
+                image: gridImage,
                 style: .plain,
                 target: self,
                 action: #selector(MediaBrowser.showGridAnimated)))
         } else {
             items.append(fixedSpace)
         }
-
-        // Middle - Nav
-        if previousButton != nil && nextButton != nil && photos > 1 {
-            hasItems = true
-            
-            items.append(flexSpace)
-            items.append(previousButton!)
-            items.append(flexSpace)
-            items.append(nextButton!)
-            items.append(flexSpace)
+        
+        let navigationItems: (() -> Void) = { [weak self] in
+            guard let self else { return }
+            // Navigation
+            if self.previousButton != nil && self.nextButton != nil && photos > 1 {
+                hasItems = true
+                
+                if #available(iOS 26.0, *) {
+                    items.append(flexSpace)
+                    items.append(previousButton!)
+                    items.append(nextButton!)
+                } else {
+                    items.append(flexSpace)
+                    items.append(previousButton!)
+                    items.append(flexSpace)
+                    items.append(nextButton!)
+                    items.append(flexSpace)
+                }
+            } else {
+                items.append(flexSpace)
+            }
+        }
+        
+        if #available(iOS 26.0, *) {
         } else {
-            items.append(flexSpace)
+            navigationItems()
         }
 
-        // Right - Action
+        // Export
         if actionButton != nil && !(!hasItems && nil == navigationItem.rightBarButtonItem) {
             items.append(actionButton!)
         } else {
@@ -558,7 +590,11 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             }
             items.append(fixedSpace)
         }
-
+        
+        if #available(iOS 26.0, *) {
+            navigationItems()
+        }
+        
         // Toolbar visibility
         toolbar.setItems(items, animated: false)
         var hideToolbar = true
@@ -759,8 +795,9 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         navigationController?.setNavigationBarHidden(false, animated: animated)
     
         if let navBar = navigationController?.navigationBar {
-            
-            if #available(iOS 13.0, *) {
+            if #available(iOS 26.0, *) {
+                //
+            } else if #available(iOS 13.0, *) {
                 let appearance = UINavigationBarAppearance()
                 appearance.configureWithDefaultBackground()
                 appearance.backgroundEffect = UIBlurEffect(style: UIBlurEffect.Style.systemChromeMaterialDark)
@@ -1591,6 +1628,13 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         } else {
             title = nil
         }
+        
+        if #available(iOS 26.0, *) {
+            var attributedSting = AttributedString(title ?? "")
+            attributedSting.foregroundColor = UIColor.white
+            navigationItem.attributedTitle = attributedSting
+        }
+        
         
         // Buttons
         if let prev = previousButton {
