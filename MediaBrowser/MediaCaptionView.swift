@@ -93,6 +93,14 @@ public class MediaCaptionView: UIToolbar {
         label.textColor = UIColor.white
         label.font = UIFont.systemFont(ofSize: 17.0)
         
+        if #available(iOS 26.0, *) {
+            label.layer.shadowColor = UIColor.black.cgColor
+            label.layer.shadowOffset = CGSize(width: 0, height: 2)
+            label.layer.shadowRadius = 4
+            label.layer.shadowOpacity = 0.5
+            label.layer.masksToBounds = false
+        }
+        
         if let p = media {
             label.text = p.caption
         }
