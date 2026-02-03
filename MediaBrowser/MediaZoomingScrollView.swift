@@ -192,10 +192,7 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
             if p.emptyImage {
                 if nil == loadingError {
                     loadingError = UIImageView()
-                    loadingError!.image = UIImage.imageForResourcePath(
-                        name: "ImageError",
-                        inBundle: Bundle(for: MediaZoomingScrollView.self))
-                    
+                    loadingError!.image = UIImage.imageForResourcePath(name: "ImageError")
                     loadingError!.isUserInteractionEnabled = false
                     loadingError!.autoresizingMask =
                         [.flexibleLeftMargin, .flexibleTopMargin, .flexibleBottomMargin, .flexibleRightMargin]
@@ -208,7 +205,8 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
                     x: floorcgf(x: (bounds.size.width - loadingError!.frame.size.width) / 2.0),
                     y: floorcgf(x: (bounds.size.height - loadingError!.frame.size.height) / 2.0),
                     width: loadingError!.frame.size.width,
-                    height: loadingError!.frame.size.height)
+                    height: loadingError!.frame.size.height
+                )
             }
         }
     }

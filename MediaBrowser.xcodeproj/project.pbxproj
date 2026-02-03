@@ -30,6 +30,7 @@
 		71596D6E20148BC300870E29 /* UICircularProgressRing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71596D6D20148BC300870E29 /* UICircularProgressRing.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		786961890EA7C05AB0704224 /* Pods_MediaBrowserDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7711DC6E06460185D3F457 /* Pods_MediaBrowserDemo.framework */; };
 		D41220D65E1D1C155F7B84A8 /* Pods_MediaBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4BE4980C085F61E53BBB29 /* Pods_MediaBrowser.framework */; };
+		FCF0D3DD2F322F4300124E02 /* MediaBrowserBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF0D3DC2F322F4200124E02 /* MediaBrowserBundle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		91A79801B53F0ED681AAEE9F /* Pods-MediaBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-MediaBrowser/Pods-MediaBrowser.release.xcconfig"; sourceTree = "<group>"; };
 		9992CC3FACE346F28670AF17 /* Pods-MediaBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MediaBrowser/Pods-MediaBrowser.debug.xcconfig"; sourceTree = "<group>"; };
 		CE4BE4980C085F61E53BBB29 /* Pods_MediaBrowser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediaBrowser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCF0D3DC2F322F4200124E02 /* MediaBrowserBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaBrowserBundle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 		1906ABB31F5F81120052DC3A /* MediaBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				FCF0D3DC2F322F4200124E02 /* MediaBrowserBundle.swift */,
 				1906ABD21F5F83960052DC3A /* MediaCaptionView.swift */,
 				1906ABD31F5F83960052DC3A /* MediaGridCell.swift */,
 				1906ABD41F5F83960052DC3A /* MediaGridViewController.swift */,
@@ -370,6 +373,7 @@
 				1906ABE61F5F83960052DC3A /* UIImageExtension.swift in Sources */,
 				1906ABE11F5F83960052DC3A /* Media.swift in Sources */,
 				1906ABE31F5F83960052DC3A /* MediaBrowser.swift in Sources */,
+				FCF0D3DD2F322F4300124E02 /* MediaBrowserBundle.swift in Sources */,
 				1906ABDD1F5F83960052DC3A /* MediaCaptionView.swift in Sources */,
 				1906ABDE1F5F83960052DC3A /* MediaGridCell.swift in Sources */,
 				1906ABDF1F5F83960052DC3A /* MediaGridViewController.swift in Sources */,

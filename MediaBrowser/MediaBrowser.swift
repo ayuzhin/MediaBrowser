@@ -392,14 +392,8 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         // Toolbar Items
         if displayMediaNavigationArrows {
             let arrowPathFormat = "UIBarButtonItemArrow"
-            
-            var previousButtonImage = UIImage.imageForResourcePath(
-                name: arrowPathFormat + "Left",
-                inBundle: Bundle(for: MediaBrowser.self))
-            
-            var nextButtonImage = UIImage.imageForResourcePath(
-                name: arrowPathFormat + "Right",
-                inBundle: Bundle(for: MediaBrowser.self))
+            var previousButtonImage = UIImage.imageForResourcePath(name: arrowPathFormat + "Left")
+            var nextButtonImage = UIImage.imageForResourcePath(name: arrowPathFormat + "Right")
             
             if #available(iOS 26.0, *) {
                 previousButtonImage = UIImage(systemName: "chevron.left")
@@ -535,7 +529,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         if enableGrid {
             hasItems = true
             
-            var gridImage = UIImage.imageForResourcePath(name: "UIBarButtonItemGrid", inBundle: Bundle(for: MediaBrowser.self))
+            var gridImage = UIImage.imageForResourcePath(name: "UIBarButtonItemGrid")
             
             if #available(iOS 26.0, *) {
                 gridImage = UIImage(systemName: "square.grid.2x2")

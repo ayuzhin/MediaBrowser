@@ -40,9 +40,7 @@ class MediaGridCell: UICollectionViewCell {
         
         // Video Image
         videoIndicator.isHidden = false
-        let videoIndicatorImage = UIImage.imageForResourcePath(
-            name: "VideoOverlay",
-            inBundle: Bundle(for: MediaGridCell.self))!
+        let videoIndicatorImage = UIImage.imageForResourcePath(name: "VideoOverlay")!
         
         videoIndicator.frame = CGRect(
             x: self.bounds.size.width - videoIndicatorImage.size.width - videoIndicatorPadding,
@@ -59,16 +57,9 @@ class MediaGridCell: UICollectionViewCell {
         selectedButton.contentMode = UIView.ContentMode.topRight
         selectedButton.adjustsImageWhenHighlighted = false
         
-        selectedButton.setImage(
-            UIImage.imageForResourcePath(
-                name: "ImageSelectedSmallOff",
-                inBundle: Bundle(for: MediaGridCell.self)),
-            for: .normal)
+        selectedButton.setImage(UIImage.imageForResourcePath(name: "ImageSelectedSmallOff"), for: .normal)
         
-        selectedButton.setImage(UIImage.imageForResourcePath(
-            name: "ImageSelectedSmallOn",
-            inBundle: Bundle(for: MediaGridCell.self)),
-                                for: .selected)
+        selectedButton.setImage(UIImage.imageForResourcePath(name: "ImageSelectedSmallOn"), for: .selected)
         
         selectedButton.addTarget(self, action: #selector(MediaGridCell.selectionButtonPressed), for: .touchDown)
         selectedButton.isHidden = true
@@ -265,10 +256,7 @@ class MediaGridCell: UICollectionViewCell {
         if let p = photo, p.emptyImage {
             if nil == loadingError {
                 let error = UIImageView()
-                error.image = UIImage.imageForResourcePath(
-                    name: "ImageError",
-                    inBundle: Bundle(for: MediaGridCell.self))
-                
+                error.image = UIImage.imageForResourcePath(name: "ImageError")
                 error.isUserInteractionEnabled = false
                 error.sizeToFit()
                 
